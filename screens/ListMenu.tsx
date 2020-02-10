@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { Text, View, Container, Tabs, Tab, Header, Title, Content, Body, Left, Right, Button, Icon, Subtitle, Footer, Grid, Col } from 'native-base';
-import { ImageBackground, Alert } from 'react-native';
 import ListMenuComponent from '../components/ListMenuComponent';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
-function ListMenu () {
+function ListMenu ({navigation}) {
 
     const [menus, setMenus] = useState([
         {
@@ -17,7 +15,7 @@ function ListMenu () {
             id: 2,
             nama: "Nasi Bebek",
             harga: 20000,
-            qty: 1
+            qty: 0
         },
         {
             id: 3,
@@ -28,7 +26,7 @@ function ListMenu () {
     ]);
 
     const handleCheckout = () => {
-        Alert.alert("Opps!");
+        navigation.navigate('Checkout', {cartItem: menus.filter(menu => menu.qty > 0)});
     }
 
     const addToCart = (menu) => {
@@ -56,26 +54,18 @@ function ListMenu () {
                     </Body>
                     <Right/>
                 </Header>
-            <Tabs style={{zIndex: 2}} tabBarBackgroundColor="#000">
-                <Tab heading="Makanan">
-                    <Content>
-                        {
-                            menus.map(menu => (
-                                <ListMenuComponent 
-                                    key={menu.id} 
-                                    addToCart={() => addToCart(menu)}
-                                    removeItemToCart={() => removeItemToCart(menu)}
-                                    {...menu}/>
-                            ))
-                        }
-                    </Content>
-                </Tab>
-                <Tab heading="Minuman">
-                    <View>
-                        <Text>Halo minuman</Text>
-                    </View>
-                </Tab>
-            </Tabs>
+                <Content>
+                    {
+                        menus.map(menu => (
+                            <ListMenuComponent 
+                                key={menu.id} 
+                                addToCart={() => addToCart(menu)}
+                                removeItemToCart={() => removeItemToCart(menu)}
+                                {...menu}/>
+                        ))
+                    }
+                </Content>
+                
             {
                 totalBelanja() > 0
                 ? <Footer style={{backgroundColor: "#fff", justifyContent: "center", alignItems: "center", borderWidth: 1, borderColor: "#f4f4f4"}}>
@@ -87,18 +77,15 @@ function ListMenu () {
                         </Col>
                         <Col size={1}>
                             <View style={{padding: 10}}>
-                                <TouchableOpacity onPress={handleCheckout}>
-                                    <Button bordered danger small block>
-                                        <Text style={{fontSize: 10}}>Checkout</Text>
-                                    </Button>
-                                </TouchableOpacity>
+                                <Button bordered danger small block onPress={handleCheckout}>
+                                    <Text style={{fontSize: 10}}>Checkout</Text>
+                                </Button>
                             </View>
                         </Col>
                     </Grid>
                 </Footer>
                 : null
             }
-            
         </Container>
     );
 }
