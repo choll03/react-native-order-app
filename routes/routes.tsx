@@ -23,10 +23,14 @@ const screens = {
         screen: DetailTransaksi,
         navigationOptions: {
             title: 'Detail Transaksi',
+            headerShown: false,
         }
     },
     Checkout: {
-        screen: Checkout
+        screen: Checkout,
+        navigationOptions: {
+            headerShown: false,
+        }
     }
 }
 

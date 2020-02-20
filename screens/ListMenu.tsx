@@ -1,26 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, Container, Tabs, Tab, Header, Title, Content, Body, Left, Right, Button, Icon, Subtitle, Footer, Grid, Col } from 'native-base';
 import ListMenuComponent from '../components/ListMenuComponent';
+import Dialog from "react-native-dialog";
 
 function ListMenu ({navigation}) {
 
+    const [dialogVisible, setDialogVisible] = useState(false);
     const [menus, setMenus] = useState([
         {
             id: 1,
             nama: "Nasi Uduk",
-            harga: 20000,
+            harga: 18000,
             qty: 0
         },
         {
             id: 2,
             nama: "Nasi Bebek",
-            harga: 20000,
+            harga: 30000,
             qty: 0
         },
         {
             id: 3,
             nama: "Nasi Goreng",
-            harga: 20000,
+            harga: 24000,
             qty: 0
         }
     ]);
@@ -38,13 +40,26 @@ function ListMenu ({navigation}) {
     }
 
     const totalBelanja = () => menus.reduce((acc, currentValue) => acc + (currentValue.qty > 0 ? (currentValue.harga * currentValue.qty) : 0) , 0)
+ 
+
+    const handleBack = () => navigation.navigate('Beranda');
     
     return(
         <Container>
+            <View>
+            <Dialog.Container visible={dialogVisible}>
+                <Dialog.Title>Konfirmasi</Dialog.Title>
+                <Dialog.Description>
+                    Anda yakin ingin meninggalkan halaman ini ?
+                </Dialog.Description>
+                <Dialog.Button label="Ya" onPress={handleBack} />
+                <Dialog.Button label="Kembali" onPress={() => setDialogVisible(false)} />
+            </Dialog.Container>
+            </View>
             <View style={{height: 30, backgroundColor: "#000"}}></View>
                 <Header hasTabs style={{backgroundColor: "#d9534f"}}>
                     <Left>
-                        <Button transparent>
+                        <Button transparent onPress={() => setDialogVisible(true)}>
                             <Icon name="arrow-back"/>
                         </Button>
                     </Left>

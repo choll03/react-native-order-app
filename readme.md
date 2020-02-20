@@ -6,8 +6,10 @@ Aplikasi pesan makanan instan menggunakan QR-Code
 
 **Cara Menjalankan**
 
-masuk directory project lalu ketikan
+masuk directory project lalu ketikan<br/>
 `npm install` atau `yarn`
 
-jika sudah selesai jalankan program :
+<br/>
+jika sudah selesai jalankan program  <br/>
 `yarn start` atau `npm start`
+
